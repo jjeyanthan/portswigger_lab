@@ -1,7 +1,7 @@
 # directory traversal 
 
 
-All the labs have been solved with a tool i made called [traver_sale](https://github.com/jjeyanthan/tools/tree/main/traver_sale)
+All the labs have been solved with a tool i made called [traver_sale](https://github.com/jjeyanthan/traver_sale)
 
 
 ## 1-use absolute path 
