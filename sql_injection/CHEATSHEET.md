@@ -113,6 +113,8 @@ username and password will be retrieve separated by ~
 ```sql
 ' union select group_concat(password) from users --
 ```
+The operator group_concat() can also be use in sqlite database.
+
 **Postgresql**: 
 
 ```sql
