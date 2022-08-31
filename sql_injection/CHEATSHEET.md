@@ -7,7 +7,7 @@ https://portswigger.net/web-security/sql-injection/cheat-sheet
 
 # SQLi methodology : <br>
 - find the number of column <br>
-- type of data<br>
+- type of data in each column<br>
 - type of db (oracle,MySql, postgresql , ...) and version <br>
 - enumerate the db<br>
 <br>
