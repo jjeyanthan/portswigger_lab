@@ -36,7 +36,7 @@ worst case: access as an admin for user from localhost
 
 # SSRF access other application :
 
-There are cases where a database like redis or MongoDb is present on different port , different ip address than "127.0.0.1"<br>
+There are cases where a database like redis or MongoDb are present on different port , different ip address than "127.0.0.1"<br>
 In this case you need to bruteforce the following private ip address.
 
 - 10.0.0.0 — 10.255.255.255; 
