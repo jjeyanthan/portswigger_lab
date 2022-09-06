@@ -28,7 +28,7 @@ If the application try to communicate with a specific API , try to replace this 
 ```
 
 
-In some cases the admin panel can be accessible only from localhost , in this context we can use a vulnerability like SSRF in order to access it.
+In some cases monitoring interfaces can be accessible only from localhost , in this context we can use a vulnerability like SSRF in order to access it.
 <br>
 worst case: access as an admin for user from localhost
 
