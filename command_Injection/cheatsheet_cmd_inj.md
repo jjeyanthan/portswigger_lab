@@ -1,14 +1,14 @@
 
 
 # summary:
-* [zero proctection](#zero-proctection)
-* [zero proctection with multiple parameter](#zero-proctection-with-multiple-parameter)
+* [zero protection](#zero-protection)
+* [zero protection with multiple parameter](#zero-protection-with-multiple-parameter)
 * [blind injection with time delay](#blind-injection-with-time-delay)
 * [blind injection with redirection](#blind-injection-with-redirection)
 * [source](#source)
 
 
-# zero proctection
+# zero protection
 
 Usually you can inject the payload in the vulnerable field directly :
 
@@ -24,7 +24,7 @@ replace CMD by whatever command you want :
 id,ls,whoami,dir(windows),...
 
 
-# zero proctection with multiple parameter
+# zero protection with multiple parameter
 
 You can try to escape/add a command to the previous argument : 
 
