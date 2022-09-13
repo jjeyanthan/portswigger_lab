@@ -13,7 +13,10 @@ I use a tool that i made called [traver sale](https://github.com/jjeyanthan/tool
 
 directory traversal cheatsheet: [here](https://github.com/jjeyanthan/portswigger_lab/blob/main/directory_traversal/CHEATSHEET.md)
 
-
 ### 3-SSRF
 
 SSRF cheatsheet: [here](https://github.com/jjeyanthan/portswigger_lab/blob/main/ssrf/ssrf_cheatsheet.md)
+
+### 4-Command injection
+
+Command injection cheatsheet: [here](https://github.com/jjeyanthan/portswigger_lab/blob/main/command_Injection/cheatsheet_cmd_inj.md)
