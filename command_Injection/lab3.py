@@ -3,7 +3,7 @@ import requests  as r
 
 # Lab: Blind OS command injection with output redirection
 
-link = "https://0a76007903a367d0c0f7dd2b008e00ad.web-security-academy.net"
+link = "" # endpoint without /
 
 def grab_csrftoken(my_session):
 
