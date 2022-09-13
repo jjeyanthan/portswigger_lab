@@ -8,7 +8,7 @@
 * [source](#source)
 
 
-# zero proctection
+# zero proctection
 
 Usually you can inject the payload in the vulnerable field directly :
 
