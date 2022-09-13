@@ -21,7 +21,7 @@ myparam=CMD
 
 ```
 replace CMD by whatever command you want :
-id,ls,whoami,dir(windowd),...
+id,ls,whoami,dir(windows),...
 
 
 # zero proctection with multiple parameter
@@ -37,7 +37,7 @@ You can try to escape/add a command to the previous argument :
 
 ```
 replace CMD by whatever command you want :
-id,ls,whoami,dir(windowd),...
+id,ls,whoami,dir(windows),...
 
 
 To perform command injection on linux system you can use also backticks or dollar character :
@@ -47,29 +47,28 @@ $(CMD)
 
 ```
 replace CMD by whatever command you want :
-id,ls,whoami,dir(windowd),...
+id,ls,whoami,dir(windows),...
 
 
-We can also use # caracter to comment out what is following our command.
-ex: 
-23 && ls #   => everything which follow # will not be executed
+We can also use # caracter to comment out what is following our command.<br>
+ex: <br>
+23 && ls #   => everything which follow # will not be executed <br>
 
 # blind injection with time delay
 
 
-In some case you will not receive the output of your command, in this case you can try to play with command involving time.
-You can use command like :
-"sleep 5" : sleep 5 second 
-or 
-"ping -c 20 127.0.0.1" : send 20 icmp packets to the loopback address
-
+In some case you will not receive the output of your command, in this case you can try to play with command involving time.<br>
+You can use command like :<br>
+"sleep 5" => sleep 5 second <br>
+or <br>
+"ping -c 20 127.0.0.1" : send 20 icmp packets to the loopback address<br>
 
 
 # blind injection with redirection
 
-redirect command out in a directory that you have read/write access.
-You can try default directory like: 
-/var/www/html 
+redirect command out in a directory that you have read/write access.<br>
+You can try default directory like: <br>
+/var/www/html <br>
 or try to find files,pictures and find if there are absolute path (these directories should have read/write permission)
 
 
