@@ -1,4 +1,7 @@
 # SSRF 
+
+Cheatsheet mainly inspired by portswigger labs! 
+
 Impact: 
 - make the server do request for us.
 
@@ -76,6 +79,12 @@ https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploi
 
 If the application is using a whitelist based approach, and you find a link using a redirect you can use it to exploit the ssrf
 
+# ssrf via referer header (blind SSRF):
+
+Some web app  use analytics application to understand from which site the user is comming from and in some cases the analytics software  try to fetch 
+the location of the website where the user is comming from. Usually return nothing (it is a blind ssrf).
+
+In this case you can use out of band request to detect the SSRF.
 
 # other ressources on ssrf: 
 
